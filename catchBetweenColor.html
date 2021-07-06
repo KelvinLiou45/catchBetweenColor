@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatcbBetweenColor</title>
+
+    <style>
+        /*google font Castoro*/
+        @import url('https://fonts.googleapis.com/css2?family=Benne&family=Castoro&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@400;500;700&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .title {
+            font-family: 'Castoro', serif;
+            font-size: 2em;
+        }
+
+        .heightlight {
+            position: relative;
+            color: #e98e8e;
+            font-size: 1.3em;
+        }
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .container1 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width:100vw;
+            margin-top:30vh;
+            transition: 0.5s;
+            margin-bottom:50px;
+        }
+
+        .container1.-visable {
+            margin-top:15vh;
+        }
+
+        .container2 {
+            /* display: flex; */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width:100vw;
+            display: none;
+        }
+        .container2.-visable {
+            display: flex;
+        }
+
+
+        .colorSquares {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0 50px 0;
+        }
+
+        .colorBox {
+            display: flex;
+            /* max-width: 350px; */
+            /* max-width: 60vw; */
+            max-width: calc(100vw - 150px);
+        }
+
+        .colorSquare {
+            width: 50px;
+            height: 50px;
+            /* border: 1px solid rgb(187, 187, 187); */
+            box-sizing: border-box;
+            transition: 0.3s;
+            margin: 0 1px;
+        }
+
+        .colorSquare:hover {
+            /* transform: scale(1.3); */
+            /* z-index: 2;
+            cursor: pointer; */
+        }
+
+        label {
+            position: relative;
+            border: 3px solid rgb(207, 207, 207);
+            box-sizing: border-box;
+            border-radius: 3px;
+            padding: 2px;
+            margin: 0 1.5px;
+        }
+
+        #color1,
+        #color2 {
+            height: 0;
+            width: 0;
+            position: absolute;
+            opacity: 0;
+        }
+
+        #color1Text,
+        #color2Text {
+            position: absolute;
+            width: 100%;
+            bottom: -30px;
+            left: -4px;
+            padding: 2px;
+            /* font-family: 'Benne', serif; */
+        }
+
+        .contaller {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contaller input[type="button"] {
+            padding: 5px;
+            margin: 15px;
+        }
+
+        .showDetail {
+            width: 80vw;
+            border: 1px solid rgb(207, 207, 207);
+            opacity: 0;
+            font-family: 'Castoro', serif;
+            padding: 10px 10px 15px;
+            border-radius: 3px;
+        }
+
+        .showDetail.-visable {
+            animation-name: downAndShow;
+            animation-duration: 0.8s;
+            animation-fill-mode: forwards;
+        }
+
+        .showDetailRow {
+            display: flex;
+            padding: 12px;
+            opacity: 0;
+        }
+
+        .showDetailRow.-visable {
+            animation-name: downAndShow;
+            animation-duration: 0.8s;
+            animation-fill-mode: forwards;
+        }
+
+        .showDetailRow .rowSquare {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 33%;
+            box-sizing: border-box;
+        }
+
+        .showDetailRow .rowSquare .color {
+            height: 30px;
+            width: 30px;
+            background: black;
+            /* border-radius: 3px; */
+            margin-right: 0.5rem;
+            border: 1px solid rgb(207, 207, 207);
+        }
+
+        .showDetailRow .rowSquare .text {
+            font-weight: bold;
+            font-family: 'Big Shoulders Stencil Display', cursive;
+        }
+
+        .showDetailRow:nth-child(1) {
+            border-bottom: 1px solid rgb(207, 207, 207);
+            animation-delay: 0.3s;
+        }
+
+        .showDetailRow:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .showDetailRow:nth-child(3) {
+            animation-delay: 0.9s;
+        }
+
+        .showDetailRow:nth-child(4) {
+            animation-delay: 1.2s;
+        }
+
+        .showDetailRow:nth-child(5) {
+            animation-delay: 1.5s;
+        }
+
+        .showDetailRow:nth-child(6) {
+            animation-delay: 1.8s;
+        }
+
+        .hidden {
+            display: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        @keyframes downAndShow {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="container1">
+            <!-- 標題 -->
+            <h1 class="title">Catch Between Color<span class="heightlight">.</span></h1>
+            <!-- 顏色設定區塊 -->
+            <div class="colorSquares">
+                <label>
+                    <div class="colorSquare"></div>
+                    <input id="color1" type="color" value="#ffffff">
+                    <input id="color1Text" type="text">
+                </label>
+                <div class="colorBox"></div>
+                <label>
+                    <div class="colorSquare"></div>
+                    <input id="color2" type="color" value="#e98e8e">
+                    <input id="color2Text" type="text">
+                </label>
+            </div>
+            <!-- 控制區塊 -->
+            <div class="contaller">
+                <div>
+                    <span>Get Count:</span>
+                    <input id="rangeController" value="5" type="range" min="1" max="15">
+                </div>
+                <input onclick="delDetail()" type="button" value="Show Detail">
+            </div>
+        </div>
+        <div class="container2">
+            <!-- 細節顯示區塊 -->
+            <div class="showDetail">
+                <div class="showDetailRow">
+                    <div class="rowSquare">Input</div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">0</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">length-1</div>
+                    </div>
+                </div>
+                <div class="showDetailRow">
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">1</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">2</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">3</div>
+                    </div>
+                </div>
+                <div class="showDetailRow">
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">4</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">5</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">6</div>
+                    </div>
+                </div>
+                <div class="showDetailRow">
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">7</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">8</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">9</div>
+                    </div>
+                </div>
+                <div class="showDetailRow">
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">10</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">11</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">12</div>
+                    </div>
+                </div>
+                <div class="showDetailRow">
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">13</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">14</div>
+                    </div>
+                    <div class="rowSquare">
+                        <div class="color"></div>
+                        <div class="text">15</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+        //* 控制項 與 預設值
+        let color1 = document.getElementById("color1");
+        let color2 = document.getElementById("color2");
+        let color1Text = document.getElementById("color1Text");
+        let color2Text = document.getElementById("color2Text");
+        let rangeController = document.getElementById("rangeController");
+        color1Text.value = color1.value;
+        color2Text.value = color2.value;
+        changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+
+        //* 控制項變動時
+        color1.addEventListener("input", () => {
+            color1Text.value = color1.value;
+            changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+        })
+        color2.addEventListener("input", () => {
+            color2Text.value = color2.value;
+            changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+        })
+        rangeController.addEventListener("input", () => {
+            changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+        })
+        color1Text.addEventListener("input", () => {
+            color1.value = color1Text.value;
+            changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+        })
+        color2Text.addEventListener("input", () => {
+            color2.value = color2Text.value;
+            changColorAndCreateRange(color1.value, color2.value, rangeController.value);
+        })
+
+
+        //* 設置顏色與產生顏色(主方法)
+        function changColorAndCreateRange(color1, color2, count) {
+            //* 設置顏色 1 2
+            let colorSquare = document.getElementsByClassName("colorSquare");
+            colorSquare[0].style.background = colorcodeToRgb(color1);
+            colorSquare[colorSquare.length - 1].style.background = colorcodeToRgb(color2);
+
+            //* 設置間格顏色
+            let colorBox = document.querySelector(".colorBox");
+            //let result = getNumBetwween(ex1, ex2, 5);
+            let result = getNumBetwween(colorcodeToObject(colorcodeToRgb(color1)), colorcodeToObject(colorcodeToRgb(color2)), count);
+
+            colorBox.innerHTML = '';
+            //* 動態產生 colorSquare 於 colorBox
+            for (let i = 0; i < result.length; i++) {
+                let div = document.createElement("div");
+                div.setAttribute("class", "colorSquare");
+                div.style.background = `rgb(${result[i].r}, ${result[i].g}, ${result[i].b})`;
+                colorBox.appendChild(div);
+            }
+        }
+
+        //* 產生細節表(主方法2)
+        function createDetail() {
+
+            let container1 = document.getElementsByClassName("container1")[0];
+            container1.classList.add("-visable");
+            let container2 = document.getElementsByClassName("container2")[0];
+            container2.classList.add("-visable");
+
+            let showDetail = document.getElementsByClassName("showDetail");
+            // showDetail[0].classList.remove("-visable");
+            showDetail[0].classList.add("-visable");
+
+            let showDetailRow = document.getElementsByClassName("showDetailRow");
+            let colorSquare = document.getElementsByClassName("colorSquare");
+            let detailColor = document.querySelectorAll(".showDetail .color");
+            let detailText = document.querySelectorAll(".showDetail .text");
+            let detailSquare = document.querySelectorAll(".showDetail .rowSquare");
+
+            //* 設置初始值
+            detailColor[0].style.background = colorSquare[0].style.background;
+            detailText[0].textContent = RgbToColorcode2(colorSquare[0].style.background);
+            detailColor[1].style.background = colorSquare[colorSquare.length - 1].style.background;
+            detailText[1].textContent = RgbToColorcode2(colorSquare[colorSquare.length - 1].style.background);
+
+
+            //* 設定 padding
+            for (let i = 0; i < showDetailRow.length; i++) {
+                showDetailRow[i].classList.remove("hidden");
+                showDetailRow[i].classList.add("-visable");
+            }
+
+            //* 視情況取消 padding
+            if (colorSquare.length - 2 < 13) {
+                showDetailRow[5].classList.add("hidden");
+            }
+            if (colorSquare.length - 2 < 10) {
+                showDetailRow[4].classList.add("hidden");
+            }
+            if (colorSquare.length - 2 < 7) {
+                showDetailRow[3].classList.add("hidden");
+            }
+            if (colorSquare.length - 2 < 4) {
+                showDetailRow[2].classList.add("hidden");
+            }
+
+            //* 將沒有用到的顏色隱藏
+            for (let i = detailColor.length - 1; i >= colorSquare.length; i--) {
+                console.log(i);
+                detailColor[i].style.display = "none";
+                detailText[i].style.display = "none";
+            }
+
+            //* 設置顏色
+            for (let i = 2; i < colorSquare.length; i++) {
+                detailColor[i].style.display = "block";
+                detailText[i].style.display = "block";
+                detailColor[i].style.background = colorSquare[i - 1].style.background;
+                detailText[i].textContent = RgbToColorcode2(colorSquare[i - 1].style.background);
+            }
+        }
+
+        //* 細節表刪除
+        function delDetail() {
+            let showDetail = document.getElementsByClassName("showDetail");
+            showDetail[0].classList.remove("-visable");
+
+            let showDetailRow = document.getElementsByClassName("showDetailRow");
+            for (let i = 0; i < showDetailRow.length; i++) {
+                showDetailRow[i].classList.remove("-visable");
+            }
+
+            setTimeout(() => createDetail(), 300);
+        }
+
+        //* 從 ex1 到 ex2 之間的顏色，取 getCount 個顏色
+        function getNumBetwween(ex1, ex2, getCount) {
+            if (getCount > 255) {
+                return [];
+            }
+
+            //* 最後一個顏色會與 ex2 重複，所以預設多取一個顏色
+            getCount++;
+
+            let resultArray = new Array();
+            let difference = 0;
+            let differenceR = ex2.r - ex1.r;
+            let differenceG = ex2.g - ex1.g;
+            let differenceB = ex2.b - ex1.b;
+
+            //* 紀錄其中的最大值
+            difference = Math.max(Math.abs(differenceR), Math.abs(differenceG), Math.abs(differenceB));
+
+            for (let i = 1; i <= getCount; i++) {
+                let R = ex1.r + Math.round(differenceR / getCount * i);
+                let G = ex1.g + Math.round(differenceG / getCount * i);
+                let B = ex1.b + Math.round(differenceB / getCount * i);
+                resultArray.push({ r: R, g: G, b: B });
+            }
+            //* 最後一個顏色會與 ex2 重複，所以拿掉
+            resultArray.pop();
+            return resultArray;
+        }
+
+        //* 16進位碼 轉 rgb
+        function colorcodeToRgb(color) {
+            //* color 必須是 #開頭
+            if (color[0] == "#" && color.length == 7) {
+                let r = parseInt(color[1] + color[2], 16);
+                let g = parseInt(color[3] + color[4], 16);
+                let b = parseInt(color[5] + color[6], 16);
+                return `rgb(${r},${g},${b})`;
+            }
+            console.log("輸入格是錯誤");
+            return `rgb(0,0,0)`;
+        }
+
+        //* rgb 轉 16進位碼
+        function RgbToColorcode(r, g, b) {
+            //* r g b 必須符合範圍
+            if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+                r = parseInt(r).toString(16);
+                g = parseInt(g).toString(16);
+                b = parseInt(b).toString(16);
+                let result = `#${r.padStart(2, '0')}${g.padStart(2, '0')}${b.padStart(2, '0')}`;
+                return result;
+            }
+            console.log("輸入格是錯誤");
+            return `#000000`;
+        }
+
+        //* rgb 轉 16進位碼(第二種方式)
+        function RgbToColorcode2(rgb) {
+
+            rgb = rgb.replaceAll("rgb(", "");
+            rgb = rgb.replaceAll(")", "");
+            rgbArray = rgb.split(",");
+            let r = rgbArray[0];
+            let g = rgbArray[1];
+            let b = rgbArray[2];
+
+            //* r g b 必須符合範圍
+            if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+                r = parseInt(r).toString(16);
+                g = parseInt(g).toString(16);
+                b = parseInt(b).toString(16);
+                let result = `#${r.padStart(2, '0')}${g.padStart(2, '0')}${b.padStart(2, '0')}`;
+                return result;
+            }
+            console.log("輸入格是錯誤");
+            return `#000000`;
+        }
+
+        //* rgb 轉 rgb物件格式
+        function colorcodeToObject(rgb) {
+            rgb = rgb.replaceAll("rgb(", "");
+            rgb = rgb.replaceAll(")", "");
+            let array = rgb.split(",");
+            return { r: array[0] * 1, g: array[1] * 1, b: array[2] * 1 }
+        }
+
+    </script>
+</body>
+
+</html>
